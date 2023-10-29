@@ -1,7 +1,7 @@
 const initialState = {
   todos: [
-    { id: 1, value: "belajar react" },
-    { id: 2, value: "belajar redux" },
+    { id: 1, value: "belajar react", status: "active" },
+    { id: 2, value: "belajar redux", status: "active" },
   ],
 };
 
@@ -38,6 +38,21 @@ function todoReducer(state = initialState, action) {
         todos: updatedTodos,
       };
 
+      case "TOGGLE_TODO_STATUS":
+        const statusTodos = state.todos.map((todo) => {
+          if (todo.id === action.payload) {
+            return {
+              ...todo,
+              status: todo.status === "active" ? "completed" : "active",
+            };
+          }
+          return todo;
+        });
+      
+        return {
+          todos: statusTodos,
+        };
+
     default:
       return state;
   }
@@ -61,6 +76,13 @@ export function editTodo(id, newValue) {
   return {
     type: "EDIT_TODO",
     payload: { id, value: newValue },
+  };
+}
+
+export function toggleTodoStatus(id) {
+  return {
+    type: "TOGGLE_TODO_STATUS",
+    payload: id,
   };
 }
 

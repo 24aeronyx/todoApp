@@ -14,8 +14,8 @@ function InputTodo() {
   };
 
   return (
-    <div className="flex justify-center m-4">
-      <form className="flex justify-between border border-black w-80 h-8 pl-1">
+    <div className="flex justify-center m-4 mx-3">
+      <form className="flex justify-between border border-black w-96 h-8 pl-1">
         <input
           className="rounded focus:outline-none w-full pr-1" // Menambahkan class "focus:outline-none"
           type="text"
