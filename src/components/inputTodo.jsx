@@ -5,11 +5,20 @@ import { addTodo } from "../redux/reducers/todo-reducer";
 function InputTodo() {
   const dispatch = useDispatch();
   const [input, setInput] = useState("");
+  const [error, setError] = useState(null);
 
   const handleClick = (e) => {
     e.preventDefault();
-    dispatch(addTodo(input));
-    setInput("");
+    
+    // Check if the input is empty
+    if (input.trim() === "") {
+      setError("Input cannot be empty");
+    } else {
+      // If input is not empty, clear the error and add the todo
+      setError(null);
+      dispatch(addTodo(input));
+      setInput("");
+    }
   };
 
   return (
@@ -29,6 +38,7 @@ function InputTodo() {
           Add
         </button>
       </form>
+      {error && <p className="text-red-500">{error}</p>}
     </div>
   );
 }
