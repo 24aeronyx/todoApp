@@ -12,7 +12,6 @@ function ListTodo() {
 
   const dispatch = useDispatch();
 
-  // Mengambil nilai filter dari Redux state
   const filter = useSelector((state) => state.todo.filter);
 
   const allTodos = useSelector((state) => state.todo.todos);
