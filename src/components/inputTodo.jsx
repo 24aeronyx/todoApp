@@ -8,14 +8,13 @@ function InputTodo() {
 
   const handleClick = (e) => {
     e.preventDefault();
-    console.log(input);
     dispatch(addTodo(input));
     setInput("");
   };
 
   return (
     <div className="flex justify-center m-4 mx-3">
-      <form className="flex justify-between border border-black w-96 h-8 pl-1">
+      <form className="flex justify-between border border-black w-full min-w-lg md:min-w-2xl lg:min-w-4xl h-8 pl-1">
         <input
           className="rounded focus:outline-none w-full pr-1" // Menambahkan class "focus:outline-none"
           type="text"

@@ -11,7 +11,21 @@ function ListTodo() {
   const [editingId, setEditingId] = useState(null);
 
   const dispatch = useDispatch();
-  const todos = useSelector((state) => state.todo.todos);
+
+  // Mengambil nilai filter dari Redux state
+  const filter = useSelector((state) => state.todo.filter);
+
+  const allTodos = useSelector((state) => state.todo.todos);
+  const todos = allTodos.filter((todo) => {
+    if (filter === "all") {
+      return true;
+    } else if (filter === "active" && todo.status === "active") {
+      return true;
+    } else if (filter === "completed" && todo.status === "completed") {
+      return true;
+    }
+    return false;
+  });
 
   const handleEdit = (id) => {
     setEditingId(id);
@@ -34,9 +48,10 @@ function ListTodo() {
     dispatch(toggleTodoStatus(id));
   };
 
+
   return (
-    <div className="flex items-center justify-center m-2 mx-3">
-      <div className="flex-col w-96">
+    <div className="flex items-center justify-center m-2 mx-3 max-w-lg md:max-w-2xl lg:max-w-4xl">
+      <div className="flex-col w-full min-w-lg md:min-w-2xl lg:min-w-4xl">
         {todos.map((todo) => (
           <div key={todo.id}>
             <div className="flex justify-between border border-black w-full px-1 h-8 my-2 items-center">

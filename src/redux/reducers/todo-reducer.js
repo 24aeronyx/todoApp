@@ -1,8 +1,12 @@
 const initialState = {
   todos: [
-    { id: 1, value: "belajar react", status: "active" },
-    { id: 2, value: "belajar redux", status: "active" },
+    { id: 1, value: "Belajar React", status: "active" },
+    { id: 2, value: "Belajar Redux", status: "active" },
+    { id: 3, value: "Study Banding with UM", status: "completed" },
+    { id: 4, value: "Belajar Tailwind", status: "completed" },
+    { id: 5, value: "Mengerjakan Pre-Test", status: "active" }
   ],
+  filter: "all", // Tambahkan filter ke dalam initialState
 };
 
 function todoReducer(state = initialState, action) {
@@ -11,11 +15,13 @@ function todoReducer(state = initialState, action) {
       const newTodo = {
         id: Date.now(),
         value: action.payload,
+        status: "active", // Atur status ke "active" secara default
       };
 
       const cloneTodos = [...state.todos, newTodo];
 
       return {
+        ...state, // Pertahankan semua properti state yang ada
         todos: cloneTodos,
       };
 
@@ -24,6 +30,7 @@ function todoReducer(state = initialState, action) {
         (item) => item.id != action.payload
       );
       return {
+        ...state, // Pertahankan semua properti state yang ada
         todos: filterTodo,
       };
 
@@ -35,23 +42,31 @@ function todoReducer(state = initialState, action) {
         return todo;
       });
       return {
+        ...state, // Pertahankan semua properti state yang ada
         todos: updatedTodos,
       };
 
-      case "TOGGLE_TODO_STATUS":
-        const statusTodos = state.todos.map((todo) => {
-          if (todo.id === action.payload) {
-            return {
-              ...todo,
-              status: todo.status === "active" ? "completed" : "active",
-            };
-          }
-          return todo;
-        });
-      
-        return {
-          todos: statusTodos,
-        };
+    case "TOGGLE_TODO_STATUS":
+      const statusTodos = state.todos.map((todo) => {
+        if (todo.id === action.payload) {
+          return {
+            ...todo,
+            status: todo.status === "active" ? "completed" : "active",
+          };
+        }
+        return todo;
+      });
+      return {
+        ...state, // Pertahankan semua properti state yang ada
+        todos: statusTodos,
+      };
+
+    // Tambahkan case untuk mengatur filter
+    case "SET_FILTER":
+      return {
+        ...state,
+        filter: action.filter,
+      };
 
     default:
       return state;
@@ -83,6 +98,14 @@ export function toggleTodoStatus(id) {
   return {
     type: "TOGGLE_TODO_STATUS",
     payload: id,
+  };
+}
+
+// Export a new action for setting the filter
+export function setFilter(filter) {
+  return {
+    type: "SET_FILTER",
+    filter,
   };
 }
 
